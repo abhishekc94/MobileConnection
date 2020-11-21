@@ -1,13 +1,11 @@
 package com.telecom.mobileconnection.repository;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.telecom.mobileconnection.entity.User;
+
+import com.telecom.mobileconnection.entity.Track;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface TrackRepository extends JpaRepository<Track, Integer>{
 
-	User findByEmailId(String emailId);
-	
 }

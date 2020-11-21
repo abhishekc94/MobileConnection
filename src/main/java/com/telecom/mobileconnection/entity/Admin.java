@@ -1,26 +1,44 @@
-/*
- * package com.telecom.mobileconnection.entity;
- * 
- * import javax.persistence.Entity; import javax.persistence.GeneratedValue;
- * import javax.persistence.GenerationType; import javax.persistence.Id; import
- * javax.persistence.Table;
- * 
- * import lombok.Getter; import lombok.NoArgsConstructor; import lombok.Setter;
- * 
- * @Entity
- * 
- * @Table
- * 
- * @Getter
- * 
- * @Setter
- * 
- * @NoArgsConstructor public class Admin {
- * 
- * @Id
- * 
- * @GeneratedValue(strategy = GenerationType.IDENTITY) private Integer
- * approverId; private String approverName; private Long mobileNumber;
- * 
- * }
- */
+package com.telecom.mobileconnection.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table
+@NoArgsConstructor
+public class Admin {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer approverId;
+	private String approverName;
+	private Long mobileNumber;
+
+	public Integer getApproverId() {
+		return approverId;
+	}
+
+	public void setApproverId(Integer approverId) {
+		this.approverId = approverId;
+	}
+
+	public String getApproverName() {
+		return approverName;
+	}
+
+	public void setApproverName(String approverName) {
+		this.approverName = approverName;
+	}
+
+	public Long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(Long mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+}
