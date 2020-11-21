@@ -1,6 +1,5 @@
 package com.telecom.mobileconnection.service;
 
-import java.security.SecureRandom;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -18,29 +17,17 @@ import com.telecom.mobileconnection.repository.UserRepository;
 import com.telecom.mobileconnection.utils.MobileConnectionContants;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 
 	@Autowired
 	TrackRepository trackRepository;
-	
+
 	@Autowired
 	PlanRepository planRepository;
 
 	Random rand;
-
-	/*
-	 * This method is used to register the customer by providing valid details,
-	 * while registering it will generate trackId for the customer. Once user
-	 * registered successfully it will generate account for the customer.
-	 * 
-	 * @Param username,address,phoneNumber,emailId
-	 * 
-	 * @return userResponseDto is the return object which includes
-	 * trackId,statusMessage,statusCode
-	 * 
-	 */
 
 	@Override
 	public UserResponseDto register(UserRequestDto userRequestDto) throws InvalidUserNameException {
@@ -74,9 +61,9 @@ public class UserServiceImpl implements UserService{
 		user.setMobileNumberStatus("New");
 		User userResponse = userRepository.save(user);
 
-		Track track=new Track();
-		
-        track.setTrackStatus("Initiated");
+		Track track = new Track();
+
+		track.setTrackStatus("Initiated");
 		track.setUserId(userResponse.getUserId());
 		track.setPlanId(userRequestDto.getPlanId());
 		track.setApproverComments("Yet to review");
@@ -94,7 +81,6 @@ public class UserServiceImpl implements UserService{
 		return userName.matches(name);
 	}
 
-
 	private boolean validEmailId(String email) {
 		Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 		java.util.regex.Matcher m = p.matcher(email);
@@ -107,12 +93,11 @@ public class UserServiceImpl implements UserService{
 		java.util.regex.Matcher m = p.matcher(num);
 		return (m.find() && m.group().equals(num));
 	}
-	
+
 	private boolean validPanNo(String panNo) {
 		Pattern p = Pattern.compile("^[a-zA-Z1-9]*$", Pattern.CASE_INSENSITIVE);
 		java.util.regex.Matcher m = p.matcher(panNo);
 		return (m.find() && m.group().equals(panNo));
 	}
-
 
 }

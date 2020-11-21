@@ -20,32 +20,16 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
 @RequestMapping("/customer")
 @Slf4j
-/**
- * 
- * @author Jyoshna
- *
- */
+
 public class UserController {
 
 	@Autowired
 	UserService userService;
-	
-	/*
-	 * This method is used to register the customer by providing valid details, while
-	 * registering it will generate password for the user. Once user registered
-	 * successfully it will generate account for the user.
-	 * 
-	 * @Body firstName,lastName,dateOfBirth,mobileNumber,emailId
-	 * 
-	 * @return CustomerResponseDto is the return object which includes
-	 * customerId,password,accountNumber,statusMessage,statusCode
-	 * 
-	 */
-	
+
 	@PostMapping("/user")
-	public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto userRequestDto) throws InvalidUserNameException{
+	public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto userRequestDto)
+			throws InvalidUserNameException {
 		UserResponseDto userResponseDto = userService.register(userRequestDto);
 		return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
 	}
 }
-
