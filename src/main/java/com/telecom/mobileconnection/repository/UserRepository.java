@@ -25,4 +25,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	public Integer updateNewMobileNumberStatus(@Param("userIdList") List<Integer> userIdList,
 			@Param("newStatus") String newStatus);
 
+	User findByPanCardNo(String panCardNo);
+
 }

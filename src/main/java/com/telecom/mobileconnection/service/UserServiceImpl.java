@@ -54,6 +54,11 @@ public class UserServiceImpl implements UserService {
 			throw new UserRegistrationException(MobileConnectionContants.EXIST_EMAIL);
 		}
 		
+		User checkCustomerPanNo = userRepository.findByPanCardNo(userRequestDto.getPanCardNo());
+		if (checkCustomerPanNo != null) {
+			throw new UserRegistrationException(MobileConnectionContants.EXIST_PAN_NO);
+		}
+		
 		Optional<Plan> checkPlan = planRepository.findByPlanId(userRequestDto.getPlanId());
 		
 		if(!checkPlan.isPresent()) {
