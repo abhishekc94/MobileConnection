@@ -30,11 +30,12 @@ public class TrackController {
 
 /**
  * @author Manisha
+ * @throws InvalidTrackIdException 
  * @apiNote This method will be used by Admin to approve/reject the application request for a new connection after verifying the details provided by customer. 
  *
  */
 	@PutMapping("/{trackId}")
-	public ResponseEntity<ApproveResponseDTO> approvalRequest(@RequestBody ApproveRequestDTO approveRequestDTO, @RequestParam Integer trackId)
+	public ResponseEntity<ApproveResponseDTO> approvalRequest(@RequestBody ApproveRequestDTO approveRequestDTO, @RequestParam Integer trackId) throws InvalidTrackIdException
 	{
 		return new ResponseEntity<>(approveRequestService.approveRequestByAdmin(approveRequestDTO, trackId), HttpStatus.OK);
 	}
