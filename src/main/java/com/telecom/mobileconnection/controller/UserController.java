@@ -42,7 +42,7 @@ public class UserController {
 	 * 
 	 */
 	
-	@PostMapping("/save")
+	@PostMapping("/user")
 	public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto userRequestDto) throws InvalidUserNameException{
 		UserResponseDto userResponseDto = userService.register(userRequestDto);
 		return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
