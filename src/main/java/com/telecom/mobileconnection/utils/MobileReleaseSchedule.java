@@ -16,7 +16,7 @@ public class MobileReleaseSchedule {
 	@Autowired
 	TrackRepository TrackRepository;
 
-	@Scheduled(cron = "0 0/2 * * * *")
+	@Scheduled(fixedRate = 2000)
 	public void mobileConnectionSchedule() {
 		List<Integer> userIdList = TrackRepository.getApprovedOrdersList(MobileConnectionContants.APPROVED_STATUS);
 		UserRepository.updateNewMobileNumberStatus(userIdList, MobileConnectionContants.NEW_CONNECTION_STATUS);

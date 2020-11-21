@@ -1,15 +1,16 @@
 package com.telecom.mobileconnection.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import com.telecom.mobileconnection.dto.ApproveRequestDTO;
 import com.telecom.mobileconnection.dto.ApproveResponseDTO;
 import com.telecom.mobileconnection.entity.Track;
 import com.telecom.mobileconnection.exception.InvalidTrackIdException;
 import com.telecom.mobileconnection.repository.TrackRepository;
-import com.telecom.mobileconnection.util.EMobileConnectionUtil;
+import com.telecom.mobileconnection.utils.MobileConnectionContants;
 
 @Service
 public class ApproveRequestServiceImpl implements ApproveRequestService {
@@ -25,9 +26,10 @@ public class ApproveRequestServiceImpl implements ApproveRequestService {
 			Track track = trackRecord.get();
 			track.setTrackStatus(approveRequestDTO.getStatus());
 			track.setApproverComments(approveRequestDTO.getApproverComments());
+			track.setApproverId(1);
 			trackRepository.save(track);
 		}else {
-			throw new InvalidTrackIdException(EMobileConnectionUtil.NO_TRACK_ID_FOUND);
+			throw new InvalidTrackIdException(MobileConnectionContants.NO_TRACK_ID_FOUND);
 		}
 		approveResponseDTO.setMessage("Success");
 		approveResponseDTO.setStatusCode("200");

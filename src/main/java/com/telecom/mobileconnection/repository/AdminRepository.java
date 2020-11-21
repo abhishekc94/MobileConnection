@@ -12,6 +12,6 @@ import com.telecom.mobileconnection.entity.Admin;
 public interface AdminRepository extends JpaRepository<Admin, Integer>{
 
 	@Query(("SELECT u.userName, u.address, u.panCardNo, u.newMobileNumber, u.mobileNumberStatus, t.trackId, "
-			+ "t.planId, t.trackStatus from User u, Track t  WHERE  t.trackStatus = 'NEW' "))
+			+ "t.planId, t.trackStatus from User u, Track t  WHERE  t.trackStatus = 'Initiated' and u.userId = t.userId"))
 	public List<Object> getListofConnections();
 }

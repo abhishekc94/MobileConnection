@@ -14,5 +14,6 @@ public class MobileConnectionContants {
 	public static final String REGISTRATION_FAILED = "Registration failed..";
 	public static final String NEW_CONNECTION_STATUS = "Connection Enabled";
 	public static final String APPROVED_STATUS = "Approved";
+	public static final String NO_TRACK_ID_FOUND = "No such track Id found";
 
 }
