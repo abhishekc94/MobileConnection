@@ -4,24 +4,29 @@ import java.security.SecureRandom;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import javax.sound.midi.Track;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.telecom.mobileconnection.dto.UserRequestDto;
 import com.telecom.mobileconnection.dto.UserResponseDto;
+import com.telecom.mobileconnection.entity.Track;
 import com.telecom.mobileconnection.entity.User;
 import com.telecom.mobileconnection.exception.InvalidUserNameException;
+import com.telecom.mobileconnection.repository.PlanRepository;
 import com.telecom.mobileconnection.repository.TrackRepository;
 import com.telecom.mobileconnection.repository.UserRepository;
 import com.telecom.mobileconnection.utils.MobileConnectionContants;
 
+@Service
 public class UserServiceImpl implements UserService{
 	@Autowired
 	UserRepository userRepository;
 
 	@Autowired
 	TrackRepository trackRepository;
+	
+	@Autowired
+	PlanRepository planRepository;
 
 	Random rand;
 
@@ -38,9 +43,9 @@ public class UserServiceImpl implements UserService{
 	 */
 
 	@Override
-	public UserResponseDto register(UserRequestDto userRequestDto) {
+	public UserResponseDto register(UserRequestDto userRequestDto) throws InvalidUserNameException {
 
-		if (!validateUserName(userRequestDto.getUsername()) {
+		if (!validateUserName(userRequestDto.getUsername())) {
 			throw new InvalidUserNameException(MobileConnectionContants.INVALID_USER_NAME);
 		}
 
@@ -50,6 +55,9 @@ public class UserServiceImpl implements UserService{
 
 		if (!validEmailId(userRequestDto.getEmailId())) {
 			throw new InvalidUserNameException(MobileConnectionContants.INVALID_EMAIL);
+		}
+		if (!validPanNo(userRequestDto.getPanCardNo())) {
+			throw new InvalidUserNameException(MobileConnectionContants.INVALID_PAN_NO);
 		}
 
 		User checkCustomerEmail = userRepository.findByEmailId(userRequestDto.getEmailId());
@@ -61,20 +69,21 @@ public class UserServiceImpl implements UserService{
 		user.setUserName(userRequestDto.getUsername());
 		user.setEmailId(userRequestDto.getEmailId());
 		user.setAddress(userRequestDto.getAddress());
-		user.setPanCardNo(generatePancard());
+		user.setPanCardNo(userRequestDto.getPanCardNo());
 		user.setNewMobileNumber(userRequestDto.getNewMobileNumber());
 		User userResponse = userRepository.save(user);
 
 		Track track=new Track();
 		
         track.setTrackStatus("New");
-		track.set
+		track.setUserId(userResponse.getUserId());
+		track.setPlanId(userRequestDto.getPlanId());
 		Track trackOrder = trackRepository.save(track);
 
 		UserResponseDto userResponseDto = new UserResponseDto();
-		userResponseDto.setTrackId(trackOrder.g);
+		userResponseDto.setTrackId(trackOrder.getTrackId());
 		userResponseDto.setStatusCode(201);
-		userResponseDto.setMessage("Customer Registered successfully and account created");
+		userResponseDto.setMessage("Customer Registered successfully, above is your track Id");
 		return userResponseDto;
 	}
 
@@ -96,23 +105,11 @@ public class UserServiceImpl implements UserService{
 		java.util.regex.Matcher m = p.matcher(num);
 		return (m.find() && m.group().equals(num));
 	}
-
-	public String generatePancard() {
-		SecureRandom r = new SecureRandom();
-		final String alphaCaps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		final String alpha = "abcdefghijklmnopqrstuvwxyz";
-		final String numeric = "0123456789";
-		int length = 8;
-		String str = null ;
-		String dic = alphaCaps + alpha + numeric;
-		StringBuilder result= new StringBuilder();
-		for (int i = 0; i < length; i++) {
-			int index = r.nextInt(dic.length());
-			result.append(dic.charAt(index));
-			str=result.toString();
-		}
-
-		return str;
+	
+	private boolean validPanNo(String panNo) {
+		Pattern p = Pattern.compile("^[a-zA-Z1-9]*$", Pattern.CASE_INSENSITIVE);
+		java.util.regex.Matcher m = p.matcher(panNo);
+		return (m.find() && m.group().equals(panNo));
 	}
 
 

@@ -18,7 +18,7 @@ public class GlobalExceptionHandler extends Exception {
 		return new ResponseEntity<>(error, HttpStatus.OK);
 	}
 	
-	@ExceptionHandler(InfoException.class)
+	@ExceptionHandler(InvalidUserNameException.class)
 	public ResponseEntity<ErrorResponse> InvalidUserNameException(InvalidUserNameException e, WebRequest request) {
 
 		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());

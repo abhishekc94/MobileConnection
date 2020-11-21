@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.telecom.mobileconnection.dto.UserRequestDto;
 import com.telecom.mobileconnection.dto.UserResponseDto;
+import com.telecom.mobileconnection.exception.InvalidUserNameException;
 import com.telecom.mobileconnection.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class UserController {
 	 */
 	
 	@PostMapping("/save")
-	public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto userRequestDto) {
+	public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto userRequestDto) throws InvalidUserNameException{
 		UserResponseDto userResponseDto = userService.register(userRequestDto);
 		return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
 	}
