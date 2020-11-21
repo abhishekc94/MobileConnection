@@ -22,6 +22,10 @@ public class Track {
 	private Integer planId;
 	private Integer approverId;
 	private String approverComments;
+	
+	public Track() {
+		super();
+	}
 
 	public Integer getTrackId() {
 		return trackId;
@@ -70,5 +74,4 @@ public class Track {
 	public void setApproverComments(String approverComments) {
 		this.approverComments = approverComments;
 	}
-
 }

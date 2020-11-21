@@ -1,0 +1,118 @@
+package com.telecom.mobileconnection.service;
+
+import java.security.SecureRandom;
+import java.util.Random;
+import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.telecom.mobileconnection.dto.UserRequestDto;
+import com.telecom.mobileconnection.dto.UserResponseDto;
+import com.telecom.mobileconnection.entity.Track;
+import com.telecom.mobileconnection.entity.User;
+import com.telecom.mobileconnection.exception.InvalidUserNameException;
+import com.telecom.mobileconnection.repository.PlanRepository;
+import com.telecom.mobileconnection.repository.TrackRepository;
+import com.telecom.mobileconnection.repository.UserRepository;
+import com.telecom.mobileconnection.utils.MobileConnectionContants;
+
+@Service
+public class UserServiceImpl implements UserService{
+	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
+	TrackRepository trackRepository;
+	
+	@Autowired
+	PlanRepository planRepository;
+
+	Random rand;
+
+	/*
+	 * This method is used to register the customer by providing valid details,
+	 * while registering it will generate trackId for the customer. Once user
+	 * registered successfully it will generate account for the customer.
+	 * 
+	 * @Param username,address,phoneNumber,emailId
+	 * 
+	 * @return userResponseDto is the return object which includes
+	 * trackId,statusMessage,statusCode
+	 * 
+	 */
+
+	@Override
+	public UserResponseDto register(UserRequestDto userRequestDto) throws InvalidUserNameException {
+
+		if (!validateUserName(userRequestDto.getUsername())) {
+			throw new InvalidUserNameException(MobileConnectionContants.INVALID_USER_NAME);
+		}
+
+		if (!validPhoneNumber(userRequestDto.getNewMobileNumber())) {
+			throw new InvalidUserNameException(MobileConnectionContants.INVALID_MOBILE_NUMBER);
+		}
+
+		if (!validEmailId(userRequestDto.getEmailId())) {
+			throw new InvalidUserNameException(MobileConnectionContants.INVALID_EMAIL);
+		}
+		if (!validPanNo(userRequestDto.getPanCardNo())) {
+			throw new InvalidUserNameException(MobileConnectionContants.INVALID_PAN_NO);
+		}
+
+		User checkCustomerEmail = userRepository.findByEmailId(userRequestDto.getEmailId());
+		if (checkCustomerEmail != null) {
+			throw new InvalidUserNameException(MobileConnectionContants.EXIST_EMAIL);
+		}
+
+		User user = new User();
+		user.setUserName(userRequestDto.getUsername());
+		user.setEmailId(userRequestDto.getEmailId());
+		user.setAddress(userRequestDto.getAddress());
+		user.setPanCardNo(userRequestDto.getPanCardNo());
+		user.setNewMobileNumber(userRequestDto.getNewMobileNumber());
+		user.setMobileNumberStatus("New");
+		User userResponse = userRepository.save(user);
+
+		Track track=new Track();
+		
+        track.setTrackStatus("Initiated");
+		track.setUserId(userResponse.getUserId());
+		track.setPlanId(userRequestDto.getPlanId());
+		track.setApproverComments("Yet to review");
+		Track trackOrder = trackRepository.save(track);
+
+		UserResponseDto userResponseDto = new UserResponseDto();
+		userResponseDto.setTrackId(trackOrder.getTrackId());
+		userResponseDto.setStatusCode(201);
+		userResponseDto.setMessage("Customer Registered successfully, above is your track Id");
+		return userResponseDto;
+	}
+
+	private boolean validateUserName(String userName) {
+		String name = ("^[a-zA-Z]*$");
+		return userName.matches(name);
+	}
+
+
+	private boolean validEmailId(String email) {
+		Pattern p = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+		java.util.regex.Matcher m = p.matcher(email);
+		return (m.find() && m.group().equals(email));
+	}
+
+	private boolean validPhoneNumber(Long number) {
+		String num = number.toString();
+		Pattern p = Pattern.compile("^[0-9]{10}$");
+		java.util.regex.Matcher m = p.matcher(num);
+		return (m.find() && m.group().equals(num));
+	}
+	
+	private boolean validPanNo(String panNo) {
+		Pattern p = Pattern.compile("^[a-zA-Z1-9]*$", Pattern.CASE_INSENSITIVE);
+		java.util.regex.Matcher m = p.matcher(panNo);
+		return (m.find() && m.group().equals(panNo));
+	}
+
+
+}

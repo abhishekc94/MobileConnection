@@ -17,9 +17,9 @@ public class GlobalExceptionHandler extends Exception {
 		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
 		return new ResponseEntity<>(error, HttpStatus.OK);
 	}
-	
-	@ExceptionHandler(InvalidTrackIdException.class)
-	public ResponseEntity<ErrorResponse> invalidTrackIdException(InvalidTrackIdException e, WebRequest request) {
+
+	@ExceptionHandler(InvalidUserNameException.class)
+	public ResponseEntity<ErrorResponse> InvalidUserNameException(InvalidUserNameException e, WebRequest request) {
 
 		ErrorResponse error = new ErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND.value());
 		return new ResponseEntity<>(error, HttpStatus.OK);
