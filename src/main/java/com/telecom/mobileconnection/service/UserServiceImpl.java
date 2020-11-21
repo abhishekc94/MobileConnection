@@ -71,13 +71,15 @@ public class UserServiceImpl implements UserService{
 		user.setAddress(userRequestDto.getAddress());
 		user.setPanCardNo(userRequestDto.getPanCardNo());
 		user.setNewMobileNumber(userRequestDto.getNewMobileNumber());
+		user.setMobileNumberStatus("New");
 		User userResponse = userRepository.save(user);
 
 		Track track=new Track();
 		
-        track.setTrackStatus("New");
+        track.setTrackStatus("Initiated");
 		track.setUserId(userResponse.getUserId());
 		track.setPlanId(userRequestDto.getPlanId());
+		track.setApproverComments("Yet to review");
 		Track trackOrder = trackRepository.save(track);
 
 		UserResponseDto userResponseDto = new UserResponseDto();
