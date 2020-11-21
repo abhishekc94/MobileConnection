@@ -1,9 +1,9 @@
 package com.telecom.mobileconnection.exception;
 
-public class InvalidUserNameException extends Exception{
+public class UserRegistrationException extends Exception{
 	private static final long serialVersionUID = 1L;
 
-	public InvalidUserNameException(String message) {
+	public UserRegistrationException(String message) {
 		super(message);
 	}
 

@@ -1,5 +1,6 @@
 package com.telecom.mobileconnection.service;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -8,9 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.telecom.mobileconnection.dto.UserRequestDto;
 import com.telecom.mobileconnection.dto.UserResponseDto;
+import com.telecom.mobileconnection.entity.Plan;
 import com.telecom.mobileconnection.entity.Track;
 import com.telecom.mobileconnection.entity.User;
-import com.telecom.mobileconnection.exception.InvalidUserNameException;
+import com.telecom.mobileconnection.exception.UserRegistrationException;
 import com.telecom.mobileconnection.repository.PlanRepository;
 import com.telecom.mobileconnection.repository.TrackRepository;
 import com.telecom.mobileconnection.repository.UserRepository;
@@ -30,28 +32,33 @@ public class UserServiceImpl implements UserService {
 	Random rand;
 
 	@Override
-	public UserResponseDto register(UserRequestDto userRequestDto) throws InvalidUserNameException {
+	public UserResponseDto register(UserRequestDto userRequestDto) throws UserRegistrationException {
 
 		if (!validateUserName(userRequestDto.getUsername())) {
-			throw new InvalidUserNameException(MobileConnectionContants.INVALID_USER_NAME);
+			throw new UserRegistrationException(MobileConnectionContants.INVALID_USER_NAME);
 		}
 
 		if (!validPhoneNumber(userRequestDto.getNewMobileNumber())) {
-			throw new InvalidUserNameException(MobileConnectionContants.INVALID_MOBILE_NUMBER);
+			throw new UserRegistrationException(MobileConnectionContants.INVALID_MOBILE_NUMBER);
 		}
 
 		if (!validEmailId(userRequestDto.getEmailId())) {
-			throw new InvalidUserNameException(MobileConnectionContants.INVALID_EMAIL);
+			throw new UserRegistrationException(MobileConnectionContants.INVALID_EMAIL);
 		}
 		if (!validPanNo(userRequestDto.getPanCardNo())) {
-			throw new InvalidUserNameException(MobileConnectionContants.INVALID_PAN_NO);
+			throw new UserRegistrationException(MobileConnectionContants.INVALID_PAN_NO);
 		}
 
 		User checkCustomerEmail = userRepository.findByEmailId(userRequestDto.getEmailId());
 		if (checkCustomerEmail != null) {
-			throw new InvalidUserNameException(MobileConnectionContants.EXIST_EMAIL);
+			throw new UserRegistrationException(MobileConnectionContants.EXIST_EMAIL);
 		}
-
+		
+		Optional<Plan> checkPlan = planRepository.findByPlanId(userRequestDto.getPlanId());
+		
+		if(!checkPlan.isPresent()) {
+			throw new UserRegistrationException(MobileConnectionContants.NO_PLAN_EXISTS);
+		}
 		User user = new User();
 		user.setUserName(userRequestDto.getUsername());
 		user.setEmailId(userRequestDto.getEmailId());

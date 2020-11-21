@@ -1,9 +1,5 @@
 package com.telecom.mobileconnection.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
-
 public class AdminResponseDto {
 
 	private String userName;
@@ -12,8 +8,15 @@ public class AdminResponseDto {
 	private Long newMobileNumber;
 	private String mobileNumberStatus;
 	private Integer trackId;
-	private Integer planId;	
 	private String trackStatus;
+	private String planId;
+	
+	public String getPlanId() {
+		return planId;
+	}
+	public void setPlanId(String planId) {
+		this.planId = planId;
+	}
 	public String getUserName() {
 		return userName;
 	}
@@ -50,12 +53,6 @@ public class AdminResponseDto {
 	}
 	public void setTrackId(Integer trackId) {
 		this.trackId = trackId;
-	}
-	public Integer getPlanId() {
-		return planId;
-	}
-	public void setPlanId(Integer planId) {
-		this.planId = planId;
 	}
 	public String getTrackStatus() {
 		return trackStatus;

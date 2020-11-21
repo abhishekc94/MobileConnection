@@ -15,5 +15,6 @@ public class MobileConnectionContants {
 	public static final String NEW_CONNECTION_STATUS = "Connection Enabled";
 	public static final String APPROVED_STATUS = "Approved";
 	public static final String NO_TRACK_ID_FOUND = "No such track Id found";
+	public static final String NO_PLAN_EXISTS = "No such plan Id found";
 
 }

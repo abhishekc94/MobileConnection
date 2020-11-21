@@ -23,7 +23,7 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 	
-	@GetMapping("/newConnection")
+	@GetMapping("/connectionList")
 	public ResponseEntity<List<AdminResponseDto>> getListofConnections()
 	{
 		List<AdminResponseDto> response = new ArrayList<>();
@@ -41,7 +41,7 @@ public class AdminController {
 				dto.setNewMobileNumber(Long.valueOf(obj[3].toString()));
 				dto.setMobileNumberStatus(obj[4].toString());
 				dto.setTrackId(Integer.valueOf(obj[5].toString()));
-				dto.setPlanId(Integer.valueOf(obj[6].toString()));
+				dto.setPlanId(obj[6].toString());
 				dto.setTrackStatus(obj[7].toString());
 				
 				response.add(dto);
