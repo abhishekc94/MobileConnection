@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Transactional
 	@Modifying
 	@Query("UPDATE User u set u.mobileNumberStatus = :newStatus " + "WHERE  u.userId in :userIdList")
-	public List<Integer> updateNewMobileNumberStatus(@Param("userIdList") List<Integer> userIdList,
+	public Integer updateNewMobileNumberStatus(@Param("userIdList") List<Integer> userIdList,
 			@Param("newStatus") String newStatus);
 
 }
