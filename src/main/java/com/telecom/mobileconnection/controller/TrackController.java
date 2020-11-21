@@ -5,6 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import com.telecom.mobileconnection.dto.TrackResponseDto;
+import com.telecom.mobileconnection.exception.InvalidTrackIdException;
+import com.telecom.mobileconnection.service.TrackService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,12 +19,14 @@ import com.telecom.mobileconnection.dto.ApproveResponseDTO;
 import com.telecom.mobileconnection.service.ApproveRequestService;
 
 @RestController
-@RequestMapping("/mobileconnection")
+@RequestMapping("/track")
 public class TrackController {
 	
 	@Autowired
 	ApproveRequestService approveRequestService;
-
+	
+	@Autowired
+	TrackService trackService;
 
 /**
  * @author Manisha
@@ -31,4 +38,15 @@ public class TrackController {
 	{
 		return new ResponseEntity<>(approveRequestService.approveRequestByAdmin(approveRequestDTO, trackId), HttpStatus.OK);
 	}
+
+	@GetMapping("/{trackId}")
+	public ResponseEntity<TrackResponseDto> getTrackDetails(@RequestParam("trackId") Integer trackId)
+			throws InvalidTrackIdException {
+
+		TrackResponseDto trackResponseDto = trackService.getTrackDetails(trackId);
+		return new ResponseEntity<>(trackResponseDto, HttpStatus.OK);
+
+	}
+
+
 }

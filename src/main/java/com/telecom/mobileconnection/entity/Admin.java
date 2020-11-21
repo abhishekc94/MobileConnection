@@ -1,5 +1,4 @@
-
-  package com.telecom.mobileconnection.entity;
+package com.telecom.mobileconnection.entity;
   
   import javax.persistence.Entity; 
   import javax.persistence.GeneratedValue;
@@ -18,14 +17,36 @@
   
   @Setter
   
-  @NoArgsConstructor public class Admin {
-  
+  @NoArgsConstructor 
+  public class Admin {
   @Id
-  
   @GeneratedValue(strategy = GenerationType.IDENTITY) 
   private Integer approverId; 
   private String approverName; 
   private Long mobileNumber;
-  
-  }
- 
+
+	public Integer getApproverId() {
+		return approverId;
+	}
+
+	public void setApproverId(Integer approverId) {
+		this.approverId = approverId;
+	}
+
+	public String getApproverName() {
+		return approverName;
+	}
+
+	public void setApproverName(String approverName) {
+		this.approverName = approverName;
+	}
+
+	public Long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(Long mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+}
+

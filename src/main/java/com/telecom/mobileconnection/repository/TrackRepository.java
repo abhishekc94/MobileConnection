@@ -1,16 +1,14 @@
 package com.telecom.mobileconnection.repository;
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.google.common.base.Optional;
 import com.telecom.mobileconnection.entity.Track;
 
 @Repository
-public interface TrackRepository extends JpaRepository<Track, Integer>{
-	
-	    public Optional<Track> findByTrackId(int trackId);
+public interface TrackRepository extends JpaRepository<Track, Integer> {
 
-	//	public void save(Optional<Track> trackRecord);
-	    
+	public Optional<Track> findByTrackId(Integer trackId);
+
 }
