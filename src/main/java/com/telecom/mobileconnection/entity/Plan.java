@@ -1,4 +1,3 @@
-
 package com.telecom.mobileconnection.entity;
 
 import javax.persistence.Entity;

@@ -1,22 +1,29 @@
 package com.telecom.mobileconnection.entity;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import lombok.NoArgsConstructor;
-
-@Entity
-@Table
-@NoArgsConstructor
-public class Admin {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer approverId;
-	private String approverName;
-	private Long mobileNumber;
+  
+  import javax.persistence.Entity; 
+  import javax.persistence.GeneratedValue;
+  import javax.persistence.GenerationType; 
+  import javax.persistence.Id; 
+  import javax.persistence.Table;
+  import lombok.Getter; 
+  import lombok.NoArgsConstructor; 
+  import lombok.Setter;
+  
+  @Entity
+  
+  @Table
+  
+  @Getter
+  
+  @Setter
+  
+  @NoArgsConstructor 
+  public class Admin {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY) 
+  private Integer approverId; 
+  private String approverName; 
+  private Long mobileNumber;
 
 	public Integer getApproverId() {
 		return approverId;
@@ -42,3 +49,4 @@ public class Admin {
 		this.mobileNumber = mobileNumber;
 	}
 }
+
